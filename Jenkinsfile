@@ -1,34 +1,20 @@
 pipeline {
   agent any
-  triggers {
-    pollSCM('*/5 * * * *')
-  }
   stages{
-       stage ('Build'){
+       stage ('Init'){
         steps {
-          sh 'mvn clean package'
-        }
-         post {
-           success {
-             echo 'Archiving...'
-             archiveArtifacts artifacts:'**/target/*.war'
-           }
+          echo "Init step..."
          }
        }
-       stage ('Deployments') {
-         parallel{
-           stage ('Deploy to Staging'){
-             steps {
-               sh "cp **/target/*.war /home/mozg/programs/tomcat-staging/webapps"
-             }
-           }
-           stage ('Deploy to prod') {
-             steps {
-               sh "cp **/target/*.war /home/mozg/programs/tomcat-prod/webapps"
-             }     
-           }
+       stage ('Build'){
+        steps {
+          echo "Build step..."
+         }
+       }
+       stage ('Deploy'){
+        steps {
+          echo "Deploy step..."
          }
        }
     }
 } 
-  
